@@ -76,8 +76,6 @@ const TextToSpeech: React.FC = () => {
     setVoices(loadedVoices);
   };
 
-  const freeVoicesCount = voices.filter(v => v.isFree).length;
-
   return (
     <div className="max-w-2xl mx-auto p-6">
       <div className="bg-white shadow rounded-lg p-6">
@@ -134,8 +132,8 @@ const TextToSpeech: React.FC = () => {
 
           <div className="flex items-center justify-between">
             <div className="text-sm text-gray-500">
-              {freeVoicesCount > 0 && (
-                <span>{freeVoicesCount} free voices available</span>
+              {voices.length > 0 && (
+                <span>{voices.length} voices available</span>
               )}
             </div>
             <button
