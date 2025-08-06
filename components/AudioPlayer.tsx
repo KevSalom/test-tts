@@ -107,11 +107,11 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   return (
     <div className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-lg font-medium text-gray-900">Generated Audio</h3>
+        <h3 className="text-sm md:text-base font-medium text-gray-900">Generated Audio</h3>
         <div className="flex gap-2">
           <button
             onClick={togglePlay}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className=" text-sm md:text-base px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             {isPlaying ? 'Stop' : 'Play'}
           </button>

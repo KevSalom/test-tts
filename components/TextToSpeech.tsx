@@ -97,7 +97,6 @@ const TextToSpeech: React.FC = () => {
             />
             <div className="flex justify-between text-sm text-gray-500 mt-1">
               <span>{text.length} characters</span>
-              <span>Max recommended: 5000 characters</span>
             </div>
           </div>
 
@@ -140,7 +139,7 @@ const TextToSpeech: React.FC = () => {
             <button
               onClick={handleGenerate}
               disabled={loading || !text.trim() || !selectedVoice}
-              className={`px-6 py-2 rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              className={`px-6 py-2 rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2  text-sm md:text-base ${
                 loading || !text.trim() || !selectedVoice
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   : 'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500'
