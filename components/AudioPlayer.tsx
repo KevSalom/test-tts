@@ -43,12 +43,20 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       setCurrentTime(audio.currentTime);
     };
 
+    const handleAudioEnd = () => {
+      setIsPlaying(false);
+      setCurrentTime(0);
+      onStop?.();
+    };
+
     audio.addEventListener('loadedmetadata', setAudioData);
     audio.addEventListener('timeupdate', setAudioTime);
+    audio.addEventListener('ended', handleAudioEnd);
 
     return () => {
       audio.removeEventListener('loadedmetadata', setAudioData);
       audio.removeEventListener('timeupdate', setAudioTime);
+      audio.removeEventListener('ended', handleAudioEnd);
     };
   }, [audioBase64]);
 
@@ -75,6 +83,23 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  const downloadAudio = () => {
+    if (!audioBase64) return;
+    
+    const audioBlob = new Blob(
+      [Uint8Array.from(atob(audioBase64), c => c.charCodeAt(0))],
+      { type: 'audio/mp3' }
+    );
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const link = document.createElement('a');
+    link.href = audioUrl;
+    link.download = 'generated-audio.mp3';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(audioUrl);
+  };
+
   if (!audioBase64) {
     return null;
   }
@@ -83,12 +108,20 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     <div className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-lg font-medium text-gray-900">Generated Audio</h3>
-        <button
-          onClick={togglePlay}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          {isPlaying ? 'Stop' : 'Play'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={togglePlay}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            {isPlaying ? 'Stop' : 'Play'}
+          </button>
+          <button
+            onClick={downloadAudio}
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+          >
+            Download
+          </button>
+        </div>
       </div>
       
       <div className="mt-2">
