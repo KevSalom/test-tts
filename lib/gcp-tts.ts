@@ -48,20 +48,15 @@ export const getAvailableVoices = async (languageCode?: string) => {
 
     const voices = result.voices || [];
 
-    // Filtrar solo voces con versión gratuita
-    const freeVoices = voices.filter((voice) => {
-      // Incluir todas las voces básicas (Standard son gratuitas)
-      return voice.name && voice.ssmlGender;
-    });
-
-    return freeVoices.map((voice) => ({
-      name: voice.name || "",
-      languageCodes: voice.languageCodes || [],
-      ssmlGender: voice.ssmlGender || "SSML_VOICE_GENDER_UNSPECIFIED",
-      naturalSampleRateHertz: voice.naturalSampleRateHertz || 0,
-      isFree:
-        voice.name?.includes("Standard"),
-    }));
+    return voices
+      .filter((voice) => !voice.name?.includes("Standard"))
+      .map((voice) => ({
+        name: voice.name || "",
+        languageCodes: voice.languageCodes || [],
+        ssmlGender: voice.ssmlGender || "SSML_VOICE_GENDER_UNSPECIFIED",
+        naturalSampleRateHertz: voice.naturalSampleRateHertz || 0,
+        isFree: false,
+      }));
   } catch (error: any) {
     console.error("Error obteniendo voces:", error);
     console.error("Error details:", {

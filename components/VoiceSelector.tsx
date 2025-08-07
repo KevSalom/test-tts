@@ -110,7 +110,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
         ) : (
           voices.map((voice) => (
             <option key={voice.name} value={voice.name}>
-              {voice.name} {voice.isFree ? '(4mill-free)' : '(1mill-free)'}
+              {voice.name}
             </option>
           ))
         )}
